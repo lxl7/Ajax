@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="axios.js"></script>
+</head>
+
+<body>
+    <button id="btn1">发起get请求</button>
+    <button id="btn2">发起post请求</button>
+    <script>
+        document.querySelector("#btn1").addEventListener("click", function () {
+            // const url = 'http://www.liulongbin.top:3006/api/get';
+            const url = 'http://www.liulongbin.top:3006/api/getbooks';
+            // 请求参数
+            // const paramsObj = { name: "李旭亮", age: 435 };
+            // const paramsObj = {id: 1, bookname: '西游记'};
+            // then后面是一个回调函数 “params”必须写的一字不差
+            // axios.get(url, { params: paramsObj }).then(function (res)
+            axios.get(url, {}).then(function (res) {
+                console.log(res);
+                // res.data是真正的数据
+                console.log(res.data);
+            })
+        });
+
+        document.querySelector("#btn2").addEventListener("click", function () {
+            // 请求的url地址
+            const url = 'http://www.liulongbin.top:3006/api/addbook';
+            // 要提交的数据
+            const dataObj = { bookname: '李旭亮', author: '李旭亮', publisher: '出版社' };
+            // 调用axios.post发起post请求
+            axios.post(url, dataObj).then(function (res) {
+                console.log(res);
+                console.log(res.data);
+            });
+        });
+    </script>
+</body>
+
+</html>

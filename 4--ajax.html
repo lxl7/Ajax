@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js-min-jqury.js"></script>
+    <!-- 
+相比于 $.get() 和 $.post() 函数，jQuery 中提供的 $.ajax() 函数，
+是一个功能比较综合的函数，它允许我们对Ajax请求进行更详细的配置
+     -->
+</head>
+
+<body>
+    <script>
+        $(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://www.liulongbin.top:3006/api/getbooks',
+                // data: { id: 1 },//这次请求要携带的数据 可以不写
+                success: function (res) {//请求成功之后的回调函数
+                    console.log(res);
+                }
+            })
+        })
+        $(function () {
+            $.ajax({
+                type: 'POST',
+                url: 'http://www.liulongbin.top:3006/api/addbook',
+                // data: { id: 1 },//这次请求要携带的数据 可以不写
+                // 下面这个id写和没写感觉一样
+                data: { id: 999, bookname: 'xxx', author: '李旭亮', publisher: '河南图书出版社' },
+                success: function (res) {//请求成功之后的回调函数
+                    console.log(res);
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

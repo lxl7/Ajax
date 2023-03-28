@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj={
+            name:'李旭亮',
+            age:18,
+            address:'河南',
+            do:function(){
+                console.log('学习');
+            }
+        }
+        function resloveData(data) {
+            const arr=[];
+            for (const k in data) {
+                const s=k+'='+data[k];
+                arr.push(s);
+            }
+            return arr;
+        }
+        console.log(resloveData(obj));
+        
+
+        // 定义myAjax函数
+        function myAjax(options) {
+            const xhr=new XMLHttpRequest();
+            // 把外界传递过来的参数对象，转换为查询字符串
+            const qs=resloveData(options.data)
+
+            xhr.onreadystatechange=function(){
+                if (xhr.readyState===4&&xhr.status===200) {
+                    const result=JSON.parse(xhr.responseText)
+                   console.log( options.success(result));
+                }
+            }
+        }
+    </script>
+</body>
+</html>

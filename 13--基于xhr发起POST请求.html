@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.创建xhr对象
+        const xhr = new XMLHttpRequest();
+        // 2.调用open函数
+        xhr.open('POST', 'http://www.liulongbin.top:3006/api/addbook');
+        // 3.设置content-type属性【固定写法】
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        // 4.调用send函数
+        xhr.send('bookname=李旭亮&author=李旭亮&publisher=河南出版社');
+        // 5.监听事件
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        }
+
+        // // 获取数据
+        // xhr.open('get', 'http://www.liulongbin.top:3006/api/getbooks?bookname=李旭亮');
+        // xhr.send();
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4 && xhr.status === 200) {
+        //         console.log(xhr.responseText);
+        //     }
+        // }
+
+    </script>
+</body>
+
+</html>

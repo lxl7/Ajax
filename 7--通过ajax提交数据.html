@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js-min-jqury.js"></script>
+</head>
+
+<body>
+    <form action="/login" id="f1">
+        姓名：<input type="text" name="name">
+        密码：<input type="password" name="pwd">
+        <button type="submit">提交</button>
+    </form>
+    <script>
+        $(function () {
+            $("#f1").submit(function (e) {
+                console.log('监听到了表单的提交事件');
+                // 重点*************************
+                // 阻止表单默认行为
+                // 阻止 表单的提交和页面的跳转
+                e.preventDefault();
+                // 后面的程序依旧会执行
+                console.log('阻止 表单的提交和页面的跳转');
+                const abc = $(this).serialize();
+                console.log(abc);
+            });
+        })
+    </script>
+</body>
+
+</html>

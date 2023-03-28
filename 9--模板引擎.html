@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js-min-jqury.js"></script>
+</head>
+
+<body>
+    <!-- <div id="title"></div>
+    <div>姓名：<span id="name"></span></div>
+    <div>年龄：<span id="age"></span></div>
+    <div>会员：<span id="isVIP"></span></div>
+    <div>注册时间：<span id="time"></span></div>
+    爱好：
+    <ul>
+        <li>吃饭</li>
+        <li>睡觉</li>
+        <li>打豆豆</li>
+    </ul> -->
+    <script>
+        const data = {
+            title: '<h3>用户信息</h3>',
+            name: 'llx',
+            age: 4523,
+            isVIP: true,
+            regTime: new Date(),
+            bobby: ['吃饭', '睡觉', '打豆豆'],
+        }
+        // 方法一
+        // document.querySelector('#title').innerHTML = data.title;
+        // $('#name').html(data.name);
+        // $('#age').html(data.age);
+        // $('#isVIP').html(data.isVIP);
+        // $('#time').html(data.regTime);
+
+        // 方法2
+        const { title, name, age, isVIP, regTime, bobby } = data;
+        document.querySelector('body').innerHTML = `
+        <div id="title">${title}</div>
+        <div>姓名：<span id="name">${name}</span></div>
+        <div>年龄：<span id="age">${age}</span></div>
+        <div>会员：<span id="isVIP">${isVIP}</span></div>
+        <div>注册时间：<span id="time">${regTime}</span></div>
+        爱好：
+        <ul>
+            <li>${bobby[0]}</li>
+            <li>${bobby[1]}</li>
+            <li>${bobby[2]}</li>
+        </ul>
+        `;
+    </script>
+</body>
+
+</html>

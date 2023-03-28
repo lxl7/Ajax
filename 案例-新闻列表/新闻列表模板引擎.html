@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/news.css" />
+    <script src="./lib/jquery.js"></script>
+    <!-- 1.引入模板 -->
+    <script src="./lib/template-web.js"></script>
+</head>
+
+<body>
+
+    <div id="news-list">
+        <!-- <div class="news-item">
+            <img class="thumb" src="" alt="" />
+            <div class="right-box">
+                <h1 class="title">5G商用在即，三大运营商营收持续下降</h1>
+                <div class="tags">
+                    <span>三大运营商</span>
+                    <span>中国移动</span>
+                    <span>5G商用</span>
+                </div>
+                <div class="footer">
+                    <div>
+                        <span>胡润百富</span>&nbsp;&nbsp;
+                        <span>2019-10-28 10:14:38</span>
+                    </div>
+                    <span>评论数：66</span>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <!-- 2.定义模板的html结构 -->
+    <script type="text/html" id="tpl-news">
+        <!-- data就是res -->
+        {{each data}}
+    <div class="news-item">
+        <img class="thumb" src="{{'http://www.liulongbin.top:3006'+$value.img}}" alt="" />
+        <div class="right-box">
+            <h1 class="title">{{$value.title}}</h1>
+            <div class="tags">
+                <!-- $value.tags指的是每一个数组 -->
+                {{each $value.tags}}
+                <!-- $value指的是数组中的每一个值 -->
+                <span>{{$value}}</span>
+                {{/each}}
+            </div>
+            <div class="footer">
+                <div>
+                    <span>胡润百富</span>&nbsp;&nbsp;
+                    <span>{{$value.time|dateFormat}}</span>
+                </div>
+                <span>评论数：{{$value.cmtcount}}</span>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    </div>
+    </script>
+
+    <script>
+        // 补零函数
+        function buLing(n) {
+            if (n<10) {
+                return '0'+n;
+            }else{
+                return n;
+            }
+        }
+        
+        // 格式化时间过滤器
+        template.defaults.imports.dateFormat = function (dastr) {
+            const dt = new Date(dastr);
+
+            let y = dt.getFullYear()
+            let m =  buLing(dt.getMonth());
+            let d =  buLing(dt.getDate());
+            let hh = buLing(dt.getHours());
+            let mm = buLing(dt.getMinutes());
+            let ss = buLing(dt.getSeconds());
+            // y=y>=10?y:'0'+y;
+            // m=m>=10?m:'0'+m;
+            // d=d>=10?d:'0'+d;
+            // hh=hh>=10?hh:'0'+hh;
+            // mm=mm>=10?mm:'0'+mm;
+            // ss=ss>=10?ss:'0'+ss;
+            return `${y}年${m}月${d}日${hh}时:${mm}分:${ss}秒`
+        }
+        // 获取数据：
+        function getNewList() {
+            $.ajax({
+                type: 'GET',//get方式获取数据
+                url: 'http://www.liulongbin.top:3006/api/news',//数据地址
+                // 如果获取数据成功
+                success: function (res) {
+                    if (res.status !== 200) {
+                        alert('获取新闻失败！');
+                    }
+
+                    for (let i = 0; i < res.data.length; i++) {
+                        // 把每一项的tags属性。由字符串，变成数组
+                        res.data[i].tags = res.data[i].tags.split(',');
+
+                    }
+
+                    // 需要渲染的 id 和  数据res
+                    const htmlStr = template('tpl-news', res);
+
+                    // 使用dom或jquery渲染
+                    document.querySelector('#news-list').innerHTML = htmlStr;
+                    // $('#news-list').html(htmlStr);
+                }
+            })
+        }
+        getNewList();
+
+    </script>
+</body>
+
+</html>

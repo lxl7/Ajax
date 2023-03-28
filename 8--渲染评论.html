@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="js-min-jqury.js"></script>
+    <style>
+        body {
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 评论面板 -->
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">发表评论</h3>
+        </div>
+        <form class="panel-body" id="from">
+            <div>评论人</div>
+            <input type="text" class="form-control ipt1" name="username">
+            <div>评论内容</div>
+            <textarea class="form-control" name="content"></textarea>
+            <button type="submit" class="btn btn-primary ipt2">发表评论</button>
+        </form>
+    </div>
+
+    <!-- 评论列表 -->
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <span class="badge">评论时间</span>
+            <span class="badge">评论人</span>
+            Item 1
+        </li>
+
+    </ul>
+
+
+    <script>
+        // 获取并渲染评论列表
+        function getCommentList() {
+            let arr = [];
+            $.ajax({
+                type: "GET",
+                url: 'http://www.liulongbin.top:3006/api/cmtlist',
+                success: function (res) {
+                    res.data.forEach(function (item, index) {
+                        arr.push(`
+                        <li class="list-group-item">
+                        <span class="badge">评论时间${item.time}</span>
+                        <span class="badge">评论人${item.username}</span>
+                        ${item.content}
+                        </li>
+                        `);
+                    })
+                    // console.log(res);
+                    $('.list-group').empty().append(arr);
+                }
+            })
+        }
+        getCommentList();
+
+        // 发表评论
+        function submitComment(data) {
+            $.ajax({
+                type: 'POST',
+                url: 'http://www.liulongbin.top:3006/api/addcmt',
+                data,
+                success: function (res) {
+                    if (res.statusCode === 201) {
+                        // console.log('gsda');
+                    }
+                    console.log(res);
+                    // 发表成功之后，重新渲染列表
+                    getCommentList();
+                },
+            });
+        }
+
+
+        // 点击发布----入口
+        $(function () {
+            $('.panel-body').submit(function (e) {
+                e.preventDefault();
+                const data = $(this).serialize();
+                // console.log(data);
+                submitComment(data);
+                // $('#from')获取的是jquery对象
+                // $('#from')[0]获取的是dom对象
+                $('#from')[0].reset();
+                // 通过jq对象点val('')也可以清空
+                // $('.ipt1').val('');
+                console.log($('#from')[0]);
+            })
+        })
+
+    </script>
+</body>
+
+</html>

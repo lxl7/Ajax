@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js-min-jqury.js"></script>
+    <!-- 1导入模板引擎----------------------------------------------- -->
+    <!-- 在window全局，多了一个函数，叫做template('模板的id'，需要渲染的数据) -->
+    <script src="template-web.js"></script>
+</head>
+
+<body>
+    <!-- <div id="title"></div>
+    <div>姓名：<span id="name"></span></div>
+    <div>年龄：<span id="age"></span></div>
+    <div>会员：<span id="isVIP"></span></div>
+    <div>注册时间：<span id="time"></span></div>
+    爱好：
+    <ul>
+        <li>吃饭</li>
+        <li>睡觉</li>
+        <li>打豆豆</li>
+    </ul> -->
+    <!-- 3.定义模板-------------------------------------------- -->
+    <!-- 模板的HTML结构，必须定义在script中 -->
+    <script type="text/html" id="abc">
+        <div id="title">{{title}}</div>
+        <div id="title">{{@title}}</div>
+        <div>姓名：<span id="name">{{name}}</span></div>
+        <div>年龄：<span id="age">{{age}}</span></div>
+        <div>会员：<span id="isVIP">{{isVIP}}</span></div>
+        <div>注册时间：<span id="time">{{time}}</span></div>
+        爱好：
+        <ul>
+            <li>{{bobby[0]}}</li>
+            <li>{{bobby[1]}}</li>
+            <li>打豆豆</li>
+        </ul>
+<div>
+    {{if flag===0}}
+    flag等于0
+    {{else if flag===1}}
+    flag等于1
+    {{/if}}
+</div>
+<div>
+    {{each bobby}}
+    <li>索引是{{$index}},循环项是：{{$value}}</li>
+    {{/each}}
+</div>
+
+<h3>时间是{{regTime}}</h3>
+
+
+<h4>{{regTime | dateFormat}}</h4>
+    </script>
+
+    <script>
+        //定义处理时间的过滤器
+        template.defaults.imports.dateFormat = function (date) {
+            const y = date.getFullYear();
+            const m = date.getMonth() + 1;
+            const d = date.getDate();
+            return y + '-' + m + '-' + d;
+        };
+        // 2.定义需要渲染的数据-------------------------------
+        const data = {
+            title: '<h3>用户信息</h3>',
+            name: 'llx',
+            age: 4523,
+            isVIP: true,
+            regTime: new Date(),
+            bobby: ['吃饭', '睡觉', '打豆豆'],
+            flag: 1,
+            regTime: new Date(),
+        }
+        // 4.调用templace函数------------------------------
+        const t1 = template('abc', data);
+        console.log(t1);
+        document.querySelector('body').innerHTML = t1;
+
+
+    </script>
+</body>
+
+</html>

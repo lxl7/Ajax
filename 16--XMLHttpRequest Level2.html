@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+XMLHttpRequest Level2的新功能
+可以设置HTTP请求的时限
+可以使用FormData对象管理表单数据
+可以上传文件
+可以获得数据传输的进度信息
+     -->
+</head>
+
+<body>
+    <script>
+        // 1.创建XHR对象
+        const xhr = new XMLHttpRequest();
+        // 设置超时时间
+        xhr.ontimeout = 3000;
+        // 2.调用open函数 2个参数：1请求方式，2地址
+        xhr.open('GET', 'http://www.liulongbin.top:3006/api/getbooks');
+        // 3.调用send函数 将请求信息发送到服务器
+        xhr.send();
+        // 设置超时之后的处理函数
+        xhr.ontimeout = function () {
+            alert('请求超时');
+        }
+        // 4.监听
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+            }
+        }
+    </script>
+</body>
+
+</html>

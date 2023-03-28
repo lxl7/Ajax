@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 1.创建formdata实例
+        const fd = new FormData();
+        // 2.调用append函数，向对象fd中追加数据
+        fd.append('uname', '李旭亮');
+        fd.append('password', '985211');
+        // 3.创建XHR对象
+        const xhr = new XMLHttpRequest();
+        // 4.调用open函数 2个参数：1请求方式，2地址
+        xhr.open('POST', 'http://www.liulongbin.top:3006/api/formdata');
+        // 5.调用send函数 将fd对象中的请求信息发送到服务器
+        xhr.send(fd);
+        // 6.监听
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(JSON.parse(xhr.responseText));
+            }
+        }
+    </script>
+</body>
+
+</html>

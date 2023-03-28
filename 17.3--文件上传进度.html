@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="js-min-jqury.js"></script>
+</head>
+
+<body>
+    <!-- 1.文件选择框 -->
+    <input type="file" id="file1">
+    <!-- 2.上传文件按钮 -->
+    <button id="btnUpload">上传文件</button>
+    
+    <!-- bs进度条 --------------------------------------------- -->
+    <div class="progress" >
+        <div class="progress-bar progress-bar-striped active" style="width: 0%" id="percent">
+            0 
+        </div>
+    </div>
+    <br>
+    <!-- 3.显示上传成功后的文件 -->
+    <img src="" alt="" width="300" id="myImg">
+    <script>
+        // 1.获取上传文件的按钮
+        const btnUpload = document.querySelector('#btnUpload');
+        // 2.给此按钮添加监听事件
+        btnUpload.addEventListener('click', function (e) {
+            // 3.获取到选择的文件列表
+            const files = document.querySelector('#file1').files;
+            console.log(files);//FileList {0: File, length: 1}
+            if (files.length <= 0) {
+                return alert('请选择文件！');
+            } else {
+                console.log('用户上传了文件');
+            }
+
+            // 4.创建fordata对象************************************
+            const fd = new FormData();
+            // 5.向formdata中追加文件
+            fd.append('avatar', files[0]);
+
+            // 6.创建xhr对象
+            const xhr = new XMLHttpRequest();
+            // 监听进度---xhr.upload的onprogress事件------------------------
+            xhr.upload.onprogress = function (e) {
+                // e.lengthComputable是一个布尔值，判断当前上传的资源是否是可以计算的
+                if (e.lengthComputable) {
+                    // e.loaded已经传输的字节
+                    // e.total需要传输的总字节
+                    let percentComplete = Math.ceil((e.loaded / e.total) * 100);
+                    console.log(percentComplete + '%');
+                    console.log(document.querySelector('#percent').style.width);
+                    console.log(document.querySelector('#percent').style.innerHtml);
+
+                    // 动态设置进度条
+                    // document.querySelector('#percent').style.width=`${percentComplete}%`;
+                    // document.querySelector('#percent').style.width=percentComplete+'%';
+                    // document.querySelector('#percent').innerHTML=(percentComplete + '%');
+
+                    $('#percent').attr('style','width:'+percentComplete+'%').html(percentComplete+'%')
+                }
+            }
+
+
+            xhr.upload.onload=function(){
+                $('#percent').removeClass().addClass('progress-bar progress-bar-success')
+            }
+
+            // 7.调用open函数，指定请求类型与URL地址，请求类型必须是post
+            xhr.open('POST', 'http://www.liulongbin.top:3006/api/upload/avatar');
+            // 8.发送请求
+            xhr.send(fd);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const s = JSON.parse(xhr.responseText);
+                    console.log(JSON.parse(xhr.responseText));
+                    document.querySelector('#myImg').src = 'http://www.liulongbin.top:3006' + s.url;
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>
